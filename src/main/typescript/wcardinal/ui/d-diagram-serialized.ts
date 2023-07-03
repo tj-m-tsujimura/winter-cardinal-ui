@@ -555,6 +555,11 @@ export interface DDiagramSerialized {
 	items: DDiagramSerializedItem[];
 	snap?: DDiagramSerializedSnap;
 	thumbnail?: string;
+	label?: string;
+	summary?: string;
+	description?: string;
+	publics?: string[];
+	mappings?: string[];
 }
 
 export type DDiagramSerializedSimpleData = Omit<
@@ -579,8 +584,6 @@ export interface DDiagramSerializedSimple {
 
 	/**
 	 * A stringified {@link DDiagramSerialized#pieces}.
-	 *
-	 * @deprecated in favor of {@link DDiagramSerializedSimpleData}.
 	 */
 	pieces?: string;
 
@@ -593,6 +596,22 @@ export interface DDiagramSerializedSimple {
 	 * A stringified {@link DDiagramSerializedSimpleData}.
 	 */
 	data: string;
+
+	label?: string;
+
+	summary?: string;
+
+	description?: string;
+
+	/**
+	 * A stringified {@link DDiagramSerialized#publics}.
+	 */
+	publics?: string;
+
+	/**
+	 * A stringified {@link DDiagramSerialized#mappings}.
+	 */
+	mappings?: string;
 }
 
 export interface DDiagramSerializedName {

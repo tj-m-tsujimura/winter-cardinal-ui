@@ -24,6 +24,7 @@ export class DDiagrams {
 			version: serialized.version,
 			id: serialized.id,
 			name: serialized.name,
+			pieces: JSON.stringify(serialized.pieces),
 			thumbnail: serialized.thumbnail,
 			data: JSON.stringify({
 				width: serialized.width,
@@ -36,13 +37,18 @@ export class DDiagrams {
 				layers: serialized.layers,
 				items: serialized.items,
 				snap: serialized.snap
-			})
+			}),
+			label: serialized.label,
+			summary: serialized.summary,
+			description: serialized.description,
+			publics: JSON.stringify(serialized.pieces),
+			mappings: JSON.stringify(serialized.mappings)
 		};
 	}
 
 	static toSerialized(target: DDiagramSerializedSimple | DDiagramSerialized): DDiagramSerialized {
 		if (!("items" in target)) {
-			const data: DDiagramSerializedSimpleData = JSON.parse(target.data);
+			const data: DDiagramSerializedSimpleData = JSON.parse(target.data || "{}");
 			const result: DDiagramSerialized = {
 				version: target.version,
 				id: target.id,
@@ -52,25 +58,18 @@ export class DDiagrams {
 				background: data.background,
 				tile: data.tile,
 				resources: data.resources,
-				data: data.data || data.tags,
-				pieces: data.pieces,
+				data: data.data ?? data.tags ?? JSON.parse(target.tags || "null"),
+				pieces: JSON.parse(target.pieces || "null") ?? data.pieces,
 				layers: data.layers,
 				items: data.items,
 				snap: data.snap,
-				thumbnail: target.thumbnail
+				thumbnail: target.thumbnail,
+				label: target.label,
+				summary: target.summary,
+				description: target.description,
+				publics: JSON.parse(target.publics || "null"),
+				mappings: JSON.parse(target.mappings || "null")
 			};
-			if (result.data == null) {
-				const tags = target.tags;
-				if (tags != null) {
-					result.data = JSON.parse(tags);
-				}
-			}
-			if (result.pieces == null) {
-				const pieces = target.pieces;
-				if (pieces != null) {
-					result.pieces = JSON.parse(pieces);
-				}
-			}
 			return result;
 		}
 		return target;
